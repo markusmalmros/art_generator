@@ -61,7 +61,7 @@ if opt.dataset in ['imagenet', 'folder', 'lfw']:
                                    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                                ]))
 elif opt.dataset == 'lsun':
-    dataset = dset.LSUN(root=opt.dataroot, classes=['bedroom_train'],
+    dataset = dset.LSUN(root=opt.dataroot, classes=['bridge_train'],
                         transform=transforms.Compose([
                             transforms.Resize(opt.imageSize),
                             transforms.CenterCrop(opt.imageSize),
