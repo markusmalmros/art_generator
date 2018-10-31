@@ -55,6 +55,7 @@ def get_painting_list(count, typep, searchword):
         regex = r'https?://uploads[0-9]+[^/\s]+/\S+\.jpg'
         url_list = re.findall(regex, str(soup.html()))
         count += len(url_list)
+        print(url_list)
         return url_list
     except Exception as e:
         print('failed to scrape %s'%url, e)
@@ -84,7 +85,7 @@ def main(typep, searchword, num_pages, output_dir):
     wikiart_pages = threadpool.starmap(get_painting_list, zip(numbers, itertools.repeat(typep), itertools.repeat(searchword))) 
     threadpool.close()
     threadpool.join()
-
+    print('wikiart_pages scraped')
     pages = [page for page in wikiart_pages if page ]
     items = [item for sublist in pages for item in sublist]
     items = list(set(items))  # get rid of duplicates
