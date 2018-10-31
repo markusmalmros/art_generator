@@ -5,6 +5,7 @@ import re
 import random
 import argparse
 import urllib
+import urllib.request
 import itertools
 import bs4
 from bs4 import BeautifulSoup
