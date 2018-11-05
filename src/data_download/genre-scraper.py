@@ -57,6 +57,7 @@ def get_painting_list(count, typep, searchword):
         count += len(url_list)
         print(count)
         return url_list
+    
     except Exception as e:
         print('failed to scrape %s'%url, e)
 
