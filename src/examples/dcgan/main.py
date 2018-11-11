@@ -31,6 +31,7 @@ parser.add_argument('--netG', default='', help="path to netG (to continue traini
 parser.add_argument('--netD', default='', help="path to netD (to continue training)")
 parser.add_argument('--outf', default='.', help='folder to output images and model checkpoints')
 parser.add_argument('--manualSeed', type=int, help='manual seed')
+parser.add_argument('--n_epochs_save', type=int, default=10, help='How often to save the nn weights')
 
 opt = parser.parse_args()
 print(opt)
@@ -253,7 +254,7 @@ for epoch in range(opt.niter):
                     '%s/fake_samples_epoch_%03d.png' % (opt.outf, epoch),
                     normalize=True)
 
-    if epoch % 20 == 0:
+    if epoch % opt.n_epochs_save == 0:
         # do checkpointing
         torch.save(netG.state_dict(), '%s/netG_epoch_%d.pth' % (opt.outf, epoch))
         torch.save(netD.state_dict(), '%s/netD_epoch_%d.pth' % (opt.outf, epoch))
