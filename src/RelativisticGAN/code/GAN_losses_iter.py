@@ -113,7 +113,11 @@ print(param, file=log_output)
 print("1")
 import numpy
 print("2")
-import torch
+try:
+    import torch
+except Exception as e:
+    print('Exception')
+    print(e)
 print("3")
 import torch.autograd as autograd
 print("4")
