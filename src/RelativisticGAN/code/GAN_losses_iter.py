@@ -113,7 +113,7 @@ print(param, file=log_output)
 print("1")
 import numpy
 print("2")
-import torch
+#import torch
 print("3")
 import torch.autograd as autograd
 print("4")
