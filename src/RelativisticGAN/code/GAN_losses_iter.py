@@ -103,6 +103,8 @@ os.mkdir(f"{base_dir}/images")
 if param.gen_extra_images > 0 and not os.path.exists(f"{param.extra_folder}"):
 	os.mkdir(f"{param.extra_folder}")
 
+print("before")
+
 # where we save the output
 log_output = open(f"{logs_dir}/log.txt", 'w')
 print(param)
