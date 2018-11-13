@@ -125,6 +125,8 @@ import torchvision.models as models
 import torchvision.utils as vutils
 import torch.nn.utils.spectral_norm as spectral_norm
 
+print("Imports")
+
 if param.cuda:
 	import torch.backends.cudnn as cudnn
 	cudnn.deterministic = True
