@@ -1,3 +1,6 @@
+import sys
+print(sys.version)
+
 
 def wr():
     print("Mja")
@@ -5,7 +8,6 @@ def wr():
     print("torfch imported")
 
 wr()
-
 print("Mja")
 import torch
 print("torfch imported")
