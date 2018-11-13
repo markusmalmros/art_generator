@@ -110,9 +110,13 @@ log_output = open(f"{logs_dir}/log.txt", 'w')
 print(param)
 print(param, file=log_output)
 
+print("1")
 import numpy
+print("2")
 import torch
+print("3")
 import torch.autograd as autograd
+print("4")
 from torch.autograd import Variable
 
 # For plotting the Loss of D and G using tensorboard
@@ -120,11 +124,17 @@ from torch.autograd import Variable
 #from tensorboard_logger import configure, log_value
 #configure(logs_dir, flush_secs=5)
 
+print("5")
 import torchvision
+print("6")
 import torchvision.datasets as dset
+print("7")
 import torchvision.transforms as transf
+print("8")
 import torchvision.models as models
+print("9")
 import torchvision.utils as vutils
+print("10")
 import torch.nn.utils.spectral_norm as spectral_norm
 
 print("Imports")
