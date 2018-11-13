@@ -6,6 +6,6 @@
 
 current_iter=$3
 for i in $(seq 1 $1); do
-	python fid.py "/home/alexia/Output/Extra/${i}" "${4}" -i "/home/alexia/Inception" --gpu "0" --output_name "${2}" --at $current_iter --output_dir "/home/alexia/Output/Extra"
+	python fid.py "/content/gdrive/My Drive/ml/elephant_results/extra/${i}" "${4}" -i "/content/gdrive/My Drive/ml/elephant_results/inception" --gpu "0" --output_name "${2}" --at $current_iter --output_dir "/content/gdrive/My Drive/ml/elephant_results/extra"
 	current_iter=$((current_iter + $3))
 done

@@ -177,6 +177,7 @@ def generate_random_sample():
 		batch = [data[i][0] for i in random_indexes]
 		yield torch.stack(batch, 0)
 random_sample = generate_random_sample()
+print("Random sample generated")
 
 ## Models
 
@@ -459,6 +460,7 @@ if param.arch == 0:
 			# Convert from 1 x 1 x 1 to 1 so that we can compare to given label (cat or not?)
 			return output.view(-1)
 
+print("Networks defined")
 ## Initialization
 G = DCGAN_G()
 D = DCGAN_D()
