@@ -103,24 +103,17 @@ os.mkdir(f"{base_dir}/images")
 if param.gen_extra_images > 0 and not os.path.exists(f"{param.extra_folder}"):
 	os.mkdir(f"{param.extra_folder}")
 
-print("before")
+
 
 # where we save the output
 log_output = open(f"{logs_dir}/log.txt", 'w')
 print(param)
 print(param, file=log_output)
 
-print("1")
+
 import numpy
-print("2")
-try:
-    import torch
-except Exception as e:
-    print('Exception')
-    print(e)
-print("3")
+import torch
 import torch.autograd as autograd
-print("4")
 from torch.autograd import Variable
 
 # For plotting the Loss of D and G using tensorboard
@@ -128,20 +121,12 @@ from torch.autograd import Variable
 #from tensorboard_logger import configure, log_value
 #configure(logs_dir, flush_secs=5)
 
-print("5")
 import torchvision
-print("6")
 import torchvision.datasets as dset
-print("7")
 import torchvision.transforms as transf
-print("8")
 import torchvision.models as models
-print("9")
 import torchvision.utils as vutils
-print("10")
 import torch.nn.utils.spectral_norm as spectral_norm
-
-print("Imports")
 
 if param.cuda:
 	import torch.backends.cudnn as cudnn
