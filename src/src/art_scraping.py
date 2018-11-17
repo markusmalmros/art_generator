@@ -29,9 +29,16 @@ def get_artist_list(url):
     return link_name_list
 
 def get_artwork_list(url):
-    soup = BeautifulSoup(urllib.request.urlopen(url), features="html5lib")
-    paintings_list = soup.find_all('li', class_="painting-list-text-row")
-    link_painting_name_list = [(x.a.get('href'), x.a.get_text()) for x in paintings_list]
+    try:
+        soup = BeautifulSoup(urllib.request.urlopen(url), features="html5lib")
+        paintings_list = soup.find_all('li', class_="painting-list-text-row")
+        link_painting_name_list = [(x.a.get('href'), x.a.get_text()) for x in paintings_list]
+        print(str(len(link_painting_name_list)) + " artwork links found")
+    except AttributeError as e:
+        print("No artwork found")
+        #print("URL: " + str(url))
+        #print(e)
+
     return link_painting_name_list
 
 def get_all_artwork_links(out_dir):
@@ -42,9 +49,11 @@ def get_all_artwork_links(out_dir):
     it = 0
     # Iterate artists
     for (artist_url, name) in artist_list:
+        time.sleep(random.random())
         print(str(it) + ' artist: ' + name)
         url = base_url + artist_url + all_works_url
         artist_artwork_dict[name] = (base_url + artist_url, get_artwork_list(url))
+        it += 1
 
     pickle.dump(artist_artwork_dict, open(out_dir + "/" + "artist_artwork_dict.p", "wb"))
 
@@ -91,7 +100,7 @@ if __name__ == '__main__':
     #print(artwork_list)
 
     args = parser.parse_args()
-    
+
     if args.mode == "artist":
         get_all_artwork_links(args.out_dir)
     if args.mode == "artwork":
