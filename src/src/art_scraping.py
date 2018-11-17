@@ -68,7 +68,7 @@ def download_artwork(url, artist_name, out_dir):
     img_soup = soup.find("img", {"itemprop":"image"})
     img_name = img_soup['title']
     img_link = img_soup['src']
-    urllib.request.urlretrieve(img_link, out_dir + '/' + artist_name + '/' + img_name + '.jpg')
+    urllib.request.urlretrieve(img_link, out_dir + '/' + artist_name + '/' + img_name.replace("/", "_") + '.jpg')
 
 def download_one_artists_artworks():
     pass
