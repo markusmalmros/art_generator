@@ -96,7 +96,8 @@ def download_all_artwork(out_dir):
             it += 1
 
         del artist_artwork_dict[name]
-        pickle.dump(artist_artwork_dict, open("artist_artwork_dict.p", "wb"))
+
+        pickle.dump(artist_artwork_dict, open(out_dir + "/" + "artist_artwork_dict.p", "wb"))
 
 
 if __name__ == '__main__':
