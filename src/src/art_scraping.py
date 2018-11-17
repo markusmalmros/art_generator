@@ -72,9 +72,11 @@ def download_artwork(url, artist_name, out_dir):
     img_name = img_soup['title']
     img_link = img_soup['src']
     print(img_link)
-    out_path = urllib.parse.urlparse((out_dir + '/' + artist_name + '/' + img_name.replace("/", "_") + '.jpg'))
-    print(out_path)
-    urllib.request.urlretrieve(urllib.parse.urlparse(img_link), out_path)
+    out_path = (out_dir + '/' + artist_name + '/' + img_name.replace("/", "_") + '.jpg')
+    try:
+        urllib.request.urlretrieve(img_link, out_path)
+    except UnicodeEncodeError:
+        print("UnicodeEncodeError")
 
 def download_one_artists_artworks():
     pass
