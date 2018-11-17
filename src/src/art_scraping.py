@@ -70,8 +70,8 @@ def download_artwork(url, artist_name, out_dir):
     img_name = img_soup['title']
     img_link = img_soup['src']
     print(img_link)
-    out_path = (out_dir + '/' + artist_name + '/' + img_name.replace("/", "_") + '.jpg').encode("utf-8")
-    urllib.request.urlretrieve(img_link.encode("utf-8"), out_path)
+    out_path = (out_dir + '/' + artist_name + '/' + img_name.replace("/", "_") + '.jpg').encode("utf-8").strip()
+    urllib.request.urlretrieve(img_link.encode("utf-8").strip(), out_path)
 
 def download_one_artists_artworks():
     pass
