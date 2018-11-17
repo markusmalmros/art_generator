@@ -38,6 +38,7 @@ def get_artwork_list(url):
         print("No artwork found")
         #print("URL: " + str(url))
         #print(e)
+        link_painting_name_list = None
 
     return link_painting_name_list
 
@@ -52,7 +53,9 @@ def get_all_artwork_links(out_dir):
         time.sleep(random.random())
         print(str(it) + ' artist: ' + name)
         url = base_url + artist_url + all_works_url
-        artist_artwork_dict[name] = (base_url + artist_url, get_artwork_list(url))
+        artwork_list = get_artwork_list(url)
+        if artwork_list != None:
+            artist_artwork_dict[name] = (base_url + artist_url, artwork_list)
         it += 1
 
     pickle.dump(artist_artwork_dict, open(out_dir + "/" + "artist_artwork_dict.p", "wb"))
