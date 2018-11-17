@@ -90,7 +90,7 @@ def download_all_artwork(out_dir):
         for art_link, art_name in art_list:
             print(str(it) + ' artwork: ' + art_name)
             url = base_url + art_link
-            download_artwork(url, name, out_dir + '/' + name + '/' + art_name + '.jpg')
+            download_artwork(url, name, out_dir)
             it += 1
 
         del artist_artwork_dict[name]
