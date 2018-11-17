@@ -61,16 +61,16 @@ def get_all_artwork_links(out_dir):
     pickle.dump(artist_artwork_dict, open(out_dir + "/" + "artist_artwork_dict.p", "wb"))
 
 def download_artwork(url, artist_name, out_dir):
-    print(url)
+
     response = urllib.request.urlopen(url)
     soup = BeautifulSoup(response, features="html5lib")
 
     img_soup = soup.find("img", {"itemprop":"image"})
     img_name = img_soup['title']
     img_link = img_soup['src']
-
+    print(img_link)
     out_path = (out_dir + '/' + artist_name + '/' + img_name.replace("/", "_") + '.jpg').encode()
-    urllib.request.urlretrieve(img_link.encode(), out_path)
+    urllib.request.urlretrieve(img_link, out_path)
 
 def download_one_artists_artworks():
     pass
