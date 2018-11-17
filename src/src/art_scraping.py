@@ -62,7 +62,8 @@ def get_all_artwork_links(out_dir):
 
 def download_artwork(url, artist_name, out_dir):
     print(url)
-    soup = BeautifulSoup(urllib.request.urlopen(url), features="html5lib")
+    response = urllib.request.urlopen(url)
+    soup = BeautifulSoup(response, features="html5lib")
 
     img_soup = soup.find("img", {"itemprop":"image"})
     img_name = img_soup['title']
@@ -78,7 +79,7 @@ def download_all_artwork(out_dir):
     it = 0
 
     # Iterate all artists in dict
-    for name in artist_artwork_dict.keys():
+    for name in list(artist_artwork_dict.keys()):
         art_list = artist_artwork_dict[name][1]
         url_artist = artist_artwork_dict[name][0]
 
@@ -88,6 +89,7 @@ def download_all_artwork(out_dir):
 
         # Iterate all artworks for artist
         for art_link, art_name in art_list:
+            time.sleep(random.random())
             print(str(it) + ' artwork: ' + art_name)
             url = base_url + art_link
             download_artwork(url, name, out_dir)
