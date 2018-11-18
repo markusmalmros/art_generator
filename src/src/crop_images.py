@@ -95,12 +95,14 @@ def scale_images(in_dir, out_dir, file_type_str, img_size=(128,128)):
 #scale_images('../../data/my_face/faces_1', '../../data/my_face/faces_1_scaled', '.jpg')
 
 def scale_images_in_folders(in_dir, out_dir, img_size=(128,128)):
-
+    print(in_dir)
+    # Iterate all artist folders
     for filepath in glob.iglob(in_dir + '/*'):
         print(filepath)
         scale_images(filepath, out_dir + '/' + filepath.split('/')[-1], '.jpg', img_size)
 
 if __name__ == '__main__':
+
     #scale_images('../../data/elephants/original', '../../data/elephants/scaled', '.jpg')
     scale_images_in_folders(param.input_folder, param.out_folder)
     #scale_images(param.input_folder, param.out_folder, '.jpg')
