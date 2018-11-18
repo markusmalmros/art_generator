@@ -31,7 +31,8 @@ parser.add_argument('--netG', default='', help="path to netG (to continue traini
 parser.add_argument('--netD', default='', help="path to netD (to continue training)")
 parser.add_argument('--outf', default='.', help='folder to output images and model checkpoints')
 parser.add_argument('--manualSeed', type=int, help='manual seed')
-parser.add_argument('--n_epochs_save', type=int, default=10, help='How often to save the nn weights')
+parser.add_argument('--n_batches_save_weights', type=int, default=10, help='How often to save the nn weights')
+parser.add_argument('--n_batches_gen_img', type=int, default=10, help='How often to generate and save samples')
 
 opt = parser.parse_args()
 print(opt)
@@ -201,6 +202,8 @@ fake_label = 0
 optimizerD = optim.Adam(netD.parameters(), lr=opt.lr, betas=(opt.beta1, 0.999))
 optimizerG = optim.Adam(netG.parameters(), lr=opt.lr, betas=(opt.beta1, 0.999))
 
+i_batch = 0
+
 for epoch in range(opt.niter):
     for i, data in enumerate(dataloader, 0):
         ############################
@@ -240,7 +243,7 @@ for epoch in range(opt.niter):
         optimizerG.step()
 
 
-        if i % 100 == 0:
+        if i_batch % opt.n_batches_gen_img == 0:
             
             print('[%d/%d][%d/%d] Loss_D: %.4f Loss_G: %.4f D(x): %.4f D(G(z)): %.4f / %.4f'
                   % (epoch, opt.niter, i, len(dataloader),
@@ -254,7 +257,9 @@ for epoch in range(opt.niter):
                     '%s/fake_samples_epoch_%03d.png' % (opt.outf, epoch),
                     normalize=True)
 
-    if epoch % opt.n_epochs_save == 0:
-        # do checkpointing
-        torch.save(netG.state_dict(), '%s/netG_epoch_%d.pth' % (opt.outf, epoch))
-        torch.save(netD.state_dict(), '%s/netD_epoch_%d.pth' % (opt.outf, epoch))
+        if i_batch % opt.n_batches_save_weights == 0:
+            # do checkpointing
+            torch.save(netG.state_dict(), '%s/netG_epoch_%d.pth' % (opt.outf, epoch))
+            torch.save(netD.state_dict(), '%s/netD_epoch_%d.pth' % (opt.outf, epoch))
+
+        i_batch += 1
