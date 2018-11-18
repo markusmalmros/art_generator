@@ -89,8 +89,8 @@ def scale_images(in_dir, out_dir, file_type_str, img_size=(128,128)):
             img = crop_image(img)
             img.resize(img_size, Image.ANTIALIAS).save(out_dir + '/' + str(it) + file_type_str)
             it += 1
-        except OSError:
-            print("OS Error")
+        except OSError as e:
+            print(e)
 
 #scale_images('../../data/my_face/faces_1', '../../data/my_face/faces_1_scaled', '.jpg')
 
