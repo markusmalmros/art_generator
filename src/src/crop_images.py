@@ -5,6 +5,13 @@ from PIL import ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 import glob
 
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('--input_folder', help='input folder')
+parser.add_argument('--out_folder', help='input folder')
+param = parser.parse_args()
+
+
 def facecrop(image, out_im_dir):
     facedata = "haarcascade_frontalface_alt.xml"
     #https://github.com/opencv/opencv/tree/master/data/haarcascades
@@ -71,7 +78,7 @@ def crop_image(original):
     return cropped_img
 
 
-def scale_images(in_dir, out_dir, file_type_str):
+def scale_images(in_dir, out_dir, file_type_str, img_size=(128,128)):
     it = 0
     for filepath in glob.iglob(in_dir + '/*' + file_type_str):
         # print(filepath)
@@ -80,12 +87,20 @@ def scale_images(in_dir, out_dir, file_type_str):
             img = Image.open(filepath)
             # img.crop((0, 0, img_width, img_height)).save(out_dir+'/'+str(it)+file_type_str)
             img = crop_image(img)
-            img.resize((128, 128), Image.ANTIALIAS).save(out_dir + '/' + str(it) + file_type_str)
+            img.resize(img_size, Image.ANTIALIAS).save(out_dir + '/' + str(it) + file_type_str)
             it += 1
         except OSError:
             print("OS Error")
 
 #scale_images('../../data/my_face/faces_1', '../../data/my_face/faces_1_scaled', '.jpg')
 
+def scale_images_in_folders(in_dir, out_dir, img_size=(128,128)):
+
+    for filepath in glob.iglob(in_dir + '/*'):
+        print(filepath)
+        scale_images(filepath, out_dir + '/' + filepath.split('/')[-1], '.jpg', img_size)
+
 if __name__ == '__main__':
-    scale_images('../../data/elephants/original', '../../data/elephants/scaled', '.jpg')
+    #scale_images('../../data/elephants/original', '../../data/elephants/scaled', '.jpg')
+    scale_images_in_folders(param.input_folder, param.out_folder)
+    #scale_images(param.input_folder, param.out_folder, '.jpg')
