@@ -254,12 +254,12 @@ for epoch in range(opt.niter):
                     normalize=True)
             fake = netG(fixed_noise)
             vutils.save_image(fake.detach(),
-                    '%s/fake_samples_epoch_%03d.png' % (opt.outf, epoch),
+                    '%s/fake_samples_epoch_%03d.png' % (opt.outf, i_batch),
                     normalize=True)
 
         if i_batch % opt.n_batches_save_weights == 0:
             # do checkpointing
-            torch.save(netG.state_dict(), '%s/netG_epoch_%d.pth' % (opt.outf, epoch))
-            torch.save(netD.state_dict(), '%s/netD_epoch_%d.pth' % (opt.outf, epoch))
+            torch.save(netG.state_dict(), '%s/netG_epoch_%d.pth' % (opt.outf, i_batch))
+            torch.save(netD.state_dict(), '%s/netD_epoch_%d.pth' % (opt.outf, i_batch))
 
         i_batch += 1
