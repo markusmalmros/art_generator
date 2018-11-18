@@ -99,7 +99,17 @@ def scale_images_in_folders(in_dir, out_dir, img_size=(128,128)):
     # Iterate all artist folders
     for filepath in glob.iglob(in_dir + '/*'):
         print(filepath)
-        scale_images(filepath, out_dir + '/' + filepath.split('/')[-1], '.jpg', img_size)
+        artist = filepath.split('/')[-1]
+
+        # Check that file is a directory
+        if os.path.isdir(filepath):
+
+            # Create folder in target dir
+            if not os.path.isdir(out_dir + '/' + artist):
+                os.mkdir(out_dir + '/' + artist)
+
+            # Scale images in dir
+            scale_images(filepath, out_dir + '/' + artist, '.jpg', img_size)
 
 if __name__ == '__main__':
 
