@@ -55,7 +55,7 @@ class trainer:
         print ('Discriminator structure: ')
         print(self.D.model)
         self.mse = torch.nn.MSELoss()
-        self.mse = torch.nn.functional.mse_loss()
+        self.mse = torch.nn.functional.mse_loss
         if self.use_cuda:
             self.mse = self.mse.cuda()
             torch.cuda.manual_seed(config.random_seed)
