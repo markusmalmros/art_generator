@@ -55,7 +55,7 @@ class trainer:
         print ('Discriminator structure: ')
         print(self.D.model)
         self.mse = torch.nn.MSELoss()
-        self.mse = torch.nn.functional.mse_loss
+        #self.mse = torch.nn.functional.mse_loss
         if self.use_cuda:
             self.mse = self.mse.cuda()
             torch.cuda.manual_seed(config.random_seed)
@@ -271,7 +271,7 @@ class trainer:
                
                 self.fx = self.D(self.x)
                 self.fx_tilde = self.D(self.x_tilde.detach())
-                loss_d = self.mse(self.fx, self.real_label) + self.mse(self.fx_tilde, self.fake_label)
+                loss_d = self.mse(self.fx.unsqueeze(0), self.real_label) + self.mse(self.fx_tilde.unsqueeze(0), self.fake_label)
 
                 loss_d.backward()
                 self.opt_d.step()
