@@ -271,7 +271,7 @@ class trainer:
                
                 self.fx = self.D(self.x)
                 self.fx_tilde = self.D(self.x_tilde.detach())
-                loss_d = self.mse(torch.squeeze(self.fx, 1), self.real_label) + self.mse(torch.squeeze(self.fx_tilde, 1), self.fake_label)
+                loss_d = self.mse(self.fx.squeeze(), self.real_label) + self.mse(self.fx_tilde.squeeze(), self.fake_label)
 
                 loss_d.backward()
                 self.opt_d.step()
