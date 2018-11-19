@@ -9,7 +9,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--input_folder', help='input folder')
 parser.add_argument('--out_folder', help='output folder')
-parser.add_argument('--img_size', help='image pixel size')
+parser.add_argument('--img_size', help='image pixel size', type=int)
 param = parser.parse_args()
 
 
