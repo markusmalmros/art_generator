@@ -271,6 +271,14 @@ class trainer:
                
                 self.fx = self.D(self.x)
                 self.fx_tilde = self.D(self.x_tilde.detach())
+
+                print(self.fx.size())
+                print(self.fx.squeeze().size())
+                print(self.fx.squeeze(1).size())
+                print(self.fx_tilde.size())
+                print(self.fx_tilde.squeeze().size())
+                print(self.fx_tilde.squeeze(0).size())
+
                 loss_d = self.mse(self.fx.squeeze(), self.real_label) + self.mse(self.fx_tilde.squeeze(), self.fake_label)
 
                 loss_d.backward()
