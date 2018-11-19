@@ -8,7 +8,8 @@ import glob
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--input_folder', help='input folder')
-parser.add_argument('--out_folder', help='input folder')
+parser.add_argument('--out_folder', help='output folder')
+parser.add_argument('--img_size', help='image pixel size')
 param = parser.parse_args()
 
 
@@ -94,7 +95,7 @@ def scale_images(in_dir, out_dir, file_type_str, img_size=(128,128)):
 
 #scale_images('../../data/my_face/faces_1', '../../data/my_face/faces_1_scaled', '.jpg')
 
-def scale_images_in_folders(in_dir, out_dir, img_size=(128,128)):
+def scale_images_in_folders(in_dir, out_dir, img_size=128):
     print(in_dir)
     # Iterate all artist folders
     for filepath in glob.iglob(in_dir + '/*'):
@@ -109,10 +110,10 @@ def scale_images_in_folders(in_dir, out_dir, img_size=(128,128)):
                 os.mkdir(out_dir + '/' + artist)
 
             # Scale images in dir
-            scale_images(filepath, out_dir + '/' + artist, '.jpg', img_size)
+            scale_images(filepath, out_dir + '/' + artist, '.jpg', (img_size, img_size))
 
 if __name__ == '__main__':
 
     #scale_images('../../data/elephants/original', '../../data/elephants/scaled', '.jpg')
-    scale_images_in_folders(param.input_folder, param.out_folder)
+    scale_images_in_folders(param.input_folder, param.out_folder, param.img_size)
     #scale_images(param.input_folder, param.out_folder, '.jpg')
