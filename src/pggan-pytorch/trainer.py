@@ -303,7 +303,7 @@ class trainer:
                 # tensorboard visualization.
                 if self.use_tb:
                     x_test = self.G(self.z_test)
-                    self.tb.add_scalar('data/loss_g', loss_g.data[0], self.globalIter)
+                    self.tuseb.add_scalar('data/loss_g', loss_g.data[0], self.globalIter)
                     self.tb.add_scalar('data/loss_d', loss_d.data[0], self.globalIter)
                     self.tb.add_scalar('tick/lr', self.lr, self.globalIter)
                     self.tb.add_scalar('tick/cur_resl', int(pow(2,floor(self.resl))), self.globalIter)
