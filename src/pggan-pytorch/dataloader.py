@@ -11,7 +11,7 @@ from torchvision.datasets import ImageFolder
 from torch.autograd import Variable
 from matplotlib import pyplot as plt
 from PIL import Image
-
+import errno
 
 class dataloader:
     def __init__(self, config):
@@ -52,7 +52,18 @@ class dataloader:
        
     def get_batch(self):
         dataIter = iter(self.dataloader)
-        return next(dataIter)[0].mul(2).add(-1)         # pixel range [-1, 1]
+
+        def my_queue_get(dataIter):
+            while True:
+                try:
+                    return next(dataIter)[0].mul(2).add(-1)
+                except IOError, e:
+                    if e.errno != errno.EINTR:
+                        raise
+
+        next(dataIter)[0].mul(2).add(-1) # pixel range [-1, 1]
+
+        return my_queue_get(dataIter)
 
 
         
