@@ -22,7 +22,7 @@ class trainer:
         else:
             self.use_cuda = False
             torch.set_default_tensor_type('torch.FloatTensor')
-        
+
         self.nz = config.nz
         self.optimizer = config.optimizer
 
@@ -46,7 +46,7 @@ class trainer:
         self.flag_flush_dis = False
         self.flag_add_noise = self.config.flag_add_noise
         self.flag_add_drift = self.config.flag_add_drift
-        
+
         # network and cirterion
         self.G = net.Generator(config)
         self.D = net.Discriminator(config)
@@ -67,17 +67,17 @@ class trainer:
                 for i  in range(config.n_gpu):
                     gpus.append(i)
                 self.G = torch.nn.DataParallel(self.G, device_ids=gpus).cuda()
-                self.D = torch.nn.DataParallel(self.D, device_ids=gpus).cuda()  
+                self.D = torch.nn.DataParallel(self.D, device_ids=gpus).cuda()
 
-        
+
         # define tensors, ship model to cuda, and get dataloader.
         self.renew_everything()
-        
+
         # tensorboard
         self.use_tb = config.use_tb
         if self.use_tb:
             self.tb = tensorboard.tf_recorder()
-        
+
 
     def resl_scheduler(self):
         '''
@@ -91,7 +91,7 @@ class trainer:
         if floor(self.resl) != 2 :
             self.trns_tick = self.config.trns_tick
             self.stab_tick = self.config.stab_tick
-        
+
         self.batchsize = self.loader.batchsize
         delta = 1.0/(2*self.trns_tick+2*self.stab_tick)
         d_alpha = 1.0*self.batchsize/self.trns_tick/self.TICK
@@ -111,7 +111,7 @@ class trainer:
                 self.phase = 'dtrns'
             elif self.resl%1.0 >= (self.stab_tick + self.trns_tick*2)*delta and self.phase!='final':
                 self.phase = 'dstab'
-            
+
         prev_kimgs = self.kimgs
         self.kimgs = self.kimgs + self.batchsize
         if (self.kimgs%self.TICK) < (prev_kimgs%self.TICK):
@@ -162,12 +162,12 @@ class trainer:
                 self.resl = self.max_resl + (self.stab_tick + self.trns_tick*2)*delta
 
 
-            
+
     def renew_everything(self):
         # renew dataloader.
         self.loader = DL.dataloader(config)
         self.loader.renew(min(floor(self.resl), self.max_resl))
-        
+
         # define tensors
         self.z = torch.FloatTensor(self.loader.batchsize, self.nz)
         self.x = torch.FloatTensor(self.loader.batchsize, 3, self.loader.imsize, self.loader.imsize)
@@ -190,18 +190,18 @@ class trainer:
         self.z = Variable(self.z)
         self.real_label = Variable(self.real_label)
         self.fake_label = Variable(self.fake_label)
-        
+
         # ship new model to cuda.
         if self.use_cuda:
             self.G = self.G.cuda()
             self.D = self.D.cuda()
-        
+
         # optimizer
         betas = (self.config.beta1, self.config.beta2)
         if self.optimizer == 'adam':
             self.opt_g = Adam(filter(lambda p: p.requires_grad, self.G.parameters()), lr=self.lr, betas=betas, weight_decay=0.0)
             self.opt_d = Adam(filter(lambda p: p.requires_grad, self.D.parameters()), lr=self.lr, betas=betas, weight_decay=0.0)
-        
+
 
     def feed_interpolated_input(self, x):
         if self.phase == 'gtrns' and floor(self.resl)>2 and floor(self.resl)<=self.max_resl:
@@ -245,8 +245,8 @@ class trainer:
             self.z_test = self.z_test.cuda()
         self.z_test = Variable(self.z_test, volatile=True)
         self.z_test.data.resize_(self.loader.batchsize, self.nz).normal_(0.0, 1.0)
-        
-        
+
+
         for step in range(2, self.max_resl+1+5):
             for iter in tqdm(range(0,(self.trns_tick*2+self.stab_tick*2)*self.TICK, self.loader.batchsize)):
                 self.globalIter = self.globalIter+1
@@ -257,7 +257,7 @@ class trainer:
 
                 # reslolution scheduler.
                 self.resl_scheduler()
-                
+
                 # zero gradients.
                 self.G.zero_grad()
                 self.D.zero_grad()
@@ -268,7 +268,7 @@ class trainer:
                     self.x = self.add_noise(self.x)
                 self.z.data.resize_(self.loader.batchsize, self.nz).normal_(0.0, 1.0)
                 self.x_tilde = self.G(self.z)
-               
+
                 self.fx = self.D(self.x)
                 self.fx_tilde = self.D(self.x_tilde.detach())
 
@@ -285,8 +285,9 @@ class trainer:
                 self.opt_g.step()
 
                 # logging.
-                log_msg = ' [E:{0}][T:{1}][{2:6}/{3:6}]  errD: {4:.4f} | errG: {5:.4f} | [lr:{11:.5f}][cur:{6:.3f}][resl:{7:4}][{8}][{9:.1f}%][{10:.1f}%]'.format(self.epoch, self.globalTick, self.stack, len(self.loader.dataset), loss_d.data[0], loss_g.data[0], self.resl, int(pow(2,floor(self.resl))), self.phase, self.complete['gen'], self.complete['dis'], self.lr)
-                tqdm.write(log_msg)
+                if self.globalIter % self.config.print_every_n_batch == 0:
+                    log_msg = ' [E:{0}][T:{1}][{2:6}/{3:6}]  errD: {4:.4f} | errG: {5:.4f} | [lr:{11:.5f}][cur:{6:.3f}][resl:{7:4}][{8}][{9:.1f}%][{10:.1f}%]'.format(self.epoch, self.globalTick, self.stack, len(self.loader.dataset), loss_d.data[0], loss_g.data[0], self.resl, int(pow(2,floor(self.resl))), self.phase, self.complete['gen'], self.complete['dis'], self.lr)
+                    tqdm.write(log_msg)
 
                 # save model.
                 self.snapshot('repo/model')

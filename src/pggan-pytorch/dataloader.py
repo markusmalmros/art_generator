@@ -58,9 +58,11 @@ class dataloader:
                 try:
                     return next(dataIter)[0].mul(2).add(-1)  # pixel range [-1, 1]
                 except IOError as e:
+                    print('Bug exception')
                     if e.errno != errno.EINTR:
                         raise
                 except OSError as e:
+                    print('Bug exception')
                     if e.errno != errno.EINTR:
                         raise
 
