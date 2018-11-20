@@ -56,15 +56,13 @@ class dataloader:
         def my_queue_get(dataIter):
             while True:
                 try:
-                    return next(dataIter)[0].mul(2).add(-1)
+                    return next(dataIter)[0].mul(2).add(-1)  # pixel range [-1, 1]
                 except IOError as e:
                     if e.errno != errno.EINTR:
                         raise
                 except OSError as e:
                     if e.errno != errno.EINTR:
                         raise
-
-        next(dataIter)[0].mul(2).add(-1) # pixel range [-1, 1]
 
         return my_queue_get(dataIter)
 
