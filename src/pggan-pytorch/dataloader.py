@@ -57,7 +57,10 @@ class dataloader:
             while True:
                 try:
                     return next(dataIter)[0].mul(2).add(-1)
-                except IOError, e:
+                except IOError as e:
+                    if e.errno != errno.EINTR:
+                        raise
+                except OSError as e:
                     if e.errno != errno.EINTR:
                         raise
 
