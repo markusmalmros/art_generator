@@ -248,7 +248,7 @@ class trainer:
 
 
         for step in range(2, self.max_resl+1+5):
-            for iter in tqdm(range(0,(self.trns_tick*2+self.stab_tick*2)*self.TICK, self.loader.batchsize)):
+            for iter in range(0,(self.trns_tick*2+self.stab_tick*2)*self.TICK, self.loader.batchsize):
                 self.globalIter = self.globalIter+1
                 self.stack = self.stack + self.loader.batchsize
                 if self.stack > ceil(len(self.loader.dataset)):
@@ -287,7 +287,8 @@ class trainer:
                 # logging.
                 if self.globalIter % self.config.print_every_n_batch == 0:
                     log_msg = ' [E:{0}][T:{1}][{2:6}/{3:6}]  errD: {4:.4f} | errG: {5:.4f} | [lr:{11:.5f}][cur:{6:.3f}][resl:{7:4}][{8}][{9:.1f}%][{10:.1f}%]'.format(self.epoch, self.globalTick, self.stack, len(self.loader.dataset), loss_d.data[0], loss_g.data[0], self.resl, int(pow(2,floor(self.resl))), self.phase, self.complete['gen'], self.complete['dis'], self.lr)
-                    tqdm.write(log_msg)
+                    #tqdm.write(log_msg)
+                    print(log_msg)
 
                 # save model.
                 self.snapshot('repo/model')
