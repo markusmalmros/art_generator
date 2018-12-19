@@ -53,8 +53,8 @@ def scrape_google_thumbnails(query, n_images):
         os.makedirs(download_path + query.replace(" ", "_"))
 
     url = "https://www.google.co.in/search?q=" + query + "&source=lnms&tbm=isch"
-    # driver = webdriver.Firefox()
-    driver = webdriver.Safari()
+    driver = webdriver.Firefox()
+    #driver = webdriver.Safari()
     driver.get(url)
 
     headers = {}
@@ -101,6 +101,6 @@ def save_files(download_path, driver):
 
 if __name__ == '__main__':
 
-    scrape_google_thumbnails('elephant', 100000)
+    scrape_google_thumbnails('happy people face', 100000)
 
     #get_google_full_images()

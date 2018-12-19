@@ -79,7 +79,7 @@ def crop_image(original):
     return cropped_img
 
 
-def scale_images(in_dir, out_dir, file_type_str, img_size=(128,128)):
+def scale_images(in_dir, out_dir, file_type_str, img_size=(256,256)):
     it = 0
     for filepath in glob.iglob(in_dir + '/*' + file_type_str):
         # print(filepath)
@@ -95,7 +95,7 @@ def scale_images(in_dir, out_dir, file_type_str, img_size=(128,128)):
 
 #scale_images('../../data/my_face/faces_1', '../../data/my_face/faces_1_scaled', '.jpg')
 
-def scale_images_in_folders(in_dir, out_dir, img_size=128):
+def scale_images_in_folders(in_dir, out_dir, img_size=256):
     print(in_dir)
     # Iterate all artist folders
     for filepath in glob.iglob(in_dir + '/*'):
